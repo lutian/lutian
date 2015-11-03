@@ -164,6 +164,7 @@
  
 		// save the image
 		imagejpeg($im,$imageResult,75); 
+		$this->im = $imageResult;
 		return $this->im;
 		imagedestroy($im);
 
