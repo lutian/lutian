@@ -26,6 +26,9 @@ $areaH = 90;
 // Initialize Class
 $ch = new CustomHeadlines();
 
+// You can set the inverse color to set text with de inverse color respect of background (optionl)
+$ch->colorInverse = true; // Default: false
+
 // Create image
 $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
