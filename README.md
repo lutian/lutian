@@ -26,11 +26,15 @@ $areaH = 90;
 // Initialize Class
 $ch = new CustomHeadlines();
 
+// set font size and family
+$ch->getFontFile();
+$ch->setFontSize(22);
+
 // You can set the inverse color to set text with de inverse color respect of background (optionl)
 $ch->colorInverse = true; // Default: false
 
 // Create image
-$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
 // Get the image
 $imgaeResult = $ch->getImage();
