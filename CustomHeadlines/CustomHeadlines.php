@@ -13,6 +13,11 @@
  class CustomHeadlines {
  
 	/**
+     * @var string The image result source
+     */
+    private $im;
+	
+	/**
      * @var string Encoder version
      */
 	private $version = '1.0';
@@ -159,7 +164,7 @@
  
 		// save the image
 		imagejpeg($im,$imageResult,75); 
-		return $imageResult;
+		return $this->im;
 		imagedestroy($im);
 
     }
@@ -333,5 +338,15 @@
        return $this->fontFile;
 
     }
+	
+	/**
+     * Get the image result string
+     * 
+     * @return string
+	 */
+	public function getImage()
+    {
+		return $this->im;
+	}
  
  }

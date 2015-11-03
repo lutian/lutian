@@ -15,10 +15,10 @@ $areaY = 10;
 $areaW = 560;
 $areaH = 90;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
 echo '<h3>Example 1:</h3>';
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
 
 $imageResult = 'images/example_result2.jpg';
 $areaX = 10;
@@ -26,9 +26,9 @@ $areaY = 100;
 $areaW = 560;
 $areaH = 90;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
 
 $imageResult = 'images/example_result3.jpg';
 $areaX = 10;
@@ -36,9 +36,9 @@ $areaY = 250;
 $areaW = 560;
 $areaH = 90;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
 
 echo '<h3>Example 2:</h3>';
 
@@ -52,9 +52,9 @@ $areaY = 10;
 $areaW = 450;
 $areaH = 120;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
 
 $imageResult = 'images/example2_result2.jpg';
 $areaX = 10;
@@ -62,9 +62,9 @@ $areaY = 80;
 $areaW = 450;
 $areaH = 120;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
 
 $imageResult = 'images/example2_result3.jpg';
 $areaX = 10;
@@ -72,6 +72,6 @@ $areaY = 250;
 $areaW = 450;
 $areaH = 120;
 
-$newImage = $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
+$ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
-echo '<p><img src="'.$newImage.'"></p>';
+echo '<p><img src="'.$ch->getImage().'"></p>';
