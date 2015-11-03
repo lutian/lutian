@@ -7,6 +7,7 @@ CustomHeadlines is a PHP class that add headlines to images with text and backgr
 // Define parameters
 
 // Image Source
+```php
 $image = 'images/example.jpg';
 // Image result
 $imageResult = 'images/example_result1.jpg';
@@ -30,4 +31,4 @@ $ch->Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha,$image
 
 // Get the image
 $imgaeResult = $ch->getImage();
-
+```
