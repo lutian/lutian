@@ -55,7 +55,12 @@
 	/**
      * @var string font file path
      */
-	private $fontFile = 'arial';
+	private $fontFile = 'fonts/arial';
+	
+	/**
+     * @var string font size
+     */
+	private $fontSize = 13;
 	
 	/**
      * @var boolean color inverse
@@ -76,7 +81,7 @@
 	* @return: string $imageResult image result path
 	*/
 	
-	public function Create($image,$headline,$fontSize,$areaX,$areaY,$areaW,$areaH,$alpha=35,$imageResult='images/test.jpg')
+	public function Create($image,$headline,$areaX,$areaY,$areaW,$areaH,$alpha=35,$imageResult='images/test.jpg')
     {
         // Create image from file
         if(is_file($image)) {
@@ -125,43 +130,21 @@
 		// headline
 	  
 		$headlineColor = imagecolorallocate($im, $txtColor['r'], $txtColor['g'], $txtColor['b']);
-		$wfield = ($areaW-10);
-		$arrWords = $this->longWordWrap($headline,$wfield);
+		$wfield = $areaW+10;
+		$hfield = $areaH+10;
+		$arrWords = $this->fitTextOnBox($headline,$wfield,$hfield);
 
-        $Lines = array ( );
-        $Line  = '';
-
-        for($s=0;$s<count($arrWords);$s++) {
-
-            $Words = explode ( ' ', $arrWords[$s] ); //
-
-            foreach ( $Words as $Word )
-            {
-             $Box  = imagettfbbox ( $fontSize, 0, $this->getFontFile('arial'), $Line . $Word );
-             $Size = $Box[4] - $Box[0];
-              if ( $Size > $wfield )
-              {
-                 $Lines[] = trim ( $Line );
-                 $Line    = '';
-              }
-              $Line .= $Word . ' ';
-            }
-            $Lines[] = trim ( $Line );
-
-        }      
-
-        $xBox = $areaX+5; 
-        $yBox = $areaY+10;
-        for($t=0;$t<count($Lines);$t++) {
-            $bbox2 = imagettfbbox ( $fontSize, 0, $this->getFontFile('arial'), $Lines[$t] );
+		$xBox = 10; 
+        $yBox = $areaY+0;
+        for($t=0;$t<count($arrWords);$t++) {
+            $bbox2 = imagettfbbox ( $this->fontSize, 0, $this->fontFile, $arrWords[$t] );
             $ww = $bbox2[4] - $bbox2[6];  
             $hh = $bbox2[1] - $bbox2[7];  
-			$xBox = ($areaW/2)-($ww/2) + 10; 
-			$yBox += ($hh);
-            imagettftext($im, $fontSize, 0, $xBox, $yBox, $headlineColor, $this->getFontFile('arial'), $Lines[$t]);
+			$xBox = $areaX+($areaW/2)-($ww/2); 
+			$yBox += ($hh-($bbox2[1]/2));
+            imagettftext($im, $this->fontSize, 0, $xBox, $yBox, $headlineColor, $this->fontFile, $arrWords[$t]);
         }
-	  
- 
+
 		// save the image
 		imagejpeg($im,$imageResult,75); 
 		$this->im = $imageResult;
@@ -303,13 +286,40 @@
 	*/
 	
 	private function longWordWrap($string,$len) {
-       $string = wordwrap($string,$len,"\\n",1);
-       $words = explode("\\n", $string); // now split by space
-       foreach ($words as $word) {
-           $outstring[] = chunk_split($string, $len, " ");
-       }
-       return $outstring;
+       $string = wordwrap($string,$len,"\n",1);
+       $lines = explode("\n", $string); 
+       return $lines;
     }
+	
+	private function fitTextOnBox($string,$width,$height) {
+		// detect the w & h of string
+		$bbox2 = imagettfbbox ( $this->fontSize, 0, $this->fontFile, $string );
+        $ww = $bbox2[4] - $bbox2[6];  
+        $hh = $bbox2[1] - $bbox2[7];  
+		if($width > $ww) {
+			if($height > $hh) {
+				return array($string);
+			} else {
+				// try with font smaller
+				$this->fontSize = ($this->fontSize-1);
+				return $this->fitTextOnBox($string,$width,$height);
+			}
+		} else {
+			// get font width for each letter
+			$letterWidth = ceil($ww/mb_strlen($string));
+			$widthBlock = ceil($width / $letterWidth)-2;
+			// split string in blocks
+			$blocks = $this->longWordWrap($string,$widthBlock);
+			// verify tha string height is grater than height box
+			$totH = (count($blocks)*($hh+0));
+			if($totH > $height) {
+				$this->fontSize = ($this->fontSize-1);
+				return $this->fitTextOnBox($string,$width,$height);
+			} else {
+				return $blocks;
+			}
+		}
+	}
 	
 	/*
 	* Convert HEX to RGB color
@@ -331,7 +341,7 @@
 	* @return: string $fontFile 
 	*/
 	
-	private function getFontFile($font='arial')
+	public function getFontFile($font='arial')
     {
        if($font == 'arial') $this->fontFile = "fonts/arial.ttf";
        elseif($font == 'times') $this->fontFile = "fonts/times.ttf";
@@ -349,5 +359,26 @@
     {
 		return $this->im;
 	}
+	
+	/**
+     * Set font size
+     * 
+     * @return string
+	 */
+	public function setFontSize($fontSize)
+    {
+		return $this->fontSize = $fontSize;
+	}
+	
+	/**
+     * Get font size
+     * 
+     * @return string
+	 */
+	public function getFontSize()
+    {
+		return $this->fontSize;
+	}
+ 
  
  }
