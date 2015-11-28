@@ -109,9 +109,10 @@
 	public function getSprite()
     {
     
-		// first read tho origin folder looking for png pictures
+		// first read the origin folder looking for png pictures
 		$arrImages = $this->readFolder($this->folders_config["origin"]["images"]);
 		
+		// save images array
 		$this->setSprite($arrImages);
 		
 		// create the sprite
@@ -119,21 +120,31 @@
 
     }
 	
+	/*
+	* read folder looking for images
+	* @return: array $result 
+	*/
 	private function readFolder($dir='',$acceptedformats=array('png')) {
 		$result = array(); 
 		$cdir = scandir($dir); 
+		// read origin dir
 		foreach ($cdir as $key => $value) 
 		{ 
+			// exclude non files
 			if (!in_array($value,array(".",".."))) 
 			{ 
+				// if have sub folders loop on the same function
 				if (is_dir($dir . DIRECTORY_SEPARATOR . $value)) 
 				{ 
 					$result[$value] = $this->readFolder($dir . DIRECTORY_SEPARATOR . $value); 
 				} 
 				else 
 				{ 
+					// exclude files with extentions not accepted
 					$ext = strtolower(substr($value, strrpos($value, '.') + 1));
-					if(in_array($ext, $acceptedformats)) $result[] = $value; 
+					if(in_array($ext, $acceptedformats)) {
+						$result[] = $value; 
+					}
 				} 
 			} 
 		} 
@@ -290,6 +301,8 @@
 	}
 	
 	private function genCssPieceCode($name) {
+		// if filename contain "_hover" add the part of code
+		if(strpos($name,"_hover")!==false) $name = substr($name,0,-6).':hover';
 		$temp_css_detail = "background: url('".$this->folders_config['destiny']['ini_path'].$this->folders_config['destiny']['sprites']."') -".$this->im_x."px -".$this->im_y."px no-repeat;".$this->temp_min_sep;
 		$temp_css_detail .= "width: ".$this->temp_w."px; height: ".$this->temp_h."px;".$this->temp_min_sep;
 		$temp_css = ".".$name." {".$temp_css_detail."}".$this->temp_min_sep;
@@ -297,10 +310,13 @@
 	}
 	
 	private function genHtmlPieceCode($name) {
-		$temp_html = '<h3>class: '.$name.'</h3>';
-		$temp_html .= '<div class="'.$name.'">';
-		$temp_html .= '</div>';
-		$this->temp_html .= $temp_html;	
+	// if filename contain "_hover" add the part of code
+		if(strpos($name,"_hover")===false) {
+			$temp_html = '<h3>class: '.$name.'</h3>';
+			$temp_html .= '<div class="'.$name.'">';
+			$temp_html .= '</div>';
+			$this->temp_html .= $temp_html;	
+		}
 	}
 	
 	private function saveSprite() {
@@ -398,6 +414,16 @@
 	 */
 	public function setCssInit($style) {
 		$this->css_init = $style.$this->temp_min_sep;
+	}
+	
+	/**
+     * Set folder config array
+     * 
+     * @return array
+	 */
+	public function setFoldersConfig($config)
+    {
+		return $this->folders_config = $config;
 	}
  
  }
