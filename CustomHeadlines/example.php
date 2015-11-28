@@ -2,20 +2,29 @@
 
 include('CustomHeadlines.php');
 
+// initializing class
 $ch = new CustomHeadlines();
 
+// define inverse color of text to false (it will be in black or white depends on predominance of the image background color)
 $ch->colorInverse = false;
+// define the image path
 $image = 'images/example.jpg';
+// define the result image path
 $imageResult = 'images/example_result1.jpg';
+// define the text box background transparency (0:full color/100: 100% transparent)
 $alpha = 40;
+// define the text of headlines
 $headline = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua';
+// set the font family (default: arial)
 $ch->getFontFile();
+// define headlines font size (it could be different if the box size is smaller respect the text)
 $ch->setFontSize(18);
+// define headlines box size
 $areaX = 10;
 $areaY = 10;
 $areaW = 560;
 $areaH = 90;
-
+// generate the image result with headlines box
 $ch->Create($image,$headline,$areaX,$areaY,$areaW,$areaH,$alpha,$imageResult);
 
 echo '<h3>Example 1:</h3>';
